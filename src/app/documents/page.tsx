@@ -85,6 +85,12 @@ export default function DocumentsPage() {
     }
   }
 
+  const handleDelete = (id: string) => {
+    setDocuments(prevDocuments => 
+      prevDocuments.filter(doc => doc.id !== id)
+    )
+  }
+
   return (
     <DashboardLayout>
       <div className="space-y-4">
@@ -210,11 +216,9 @@ export default function DocumentsPage() {
         <DocumentDetailsModal
           isOpen={!!selectedDocument}
           onClose={() => setSelectedDocument(null)}
-          document={{
-            ...selectedDocument,
-            fileUrl: selectedDocument.fileUrl || undefined
-          }}
+          document={selectedDocument}
           onDownload={() => handleDownload(selectedDocument)}
+          onDelete={handleDelete}
         />
       )}
     </DashboardLayout>

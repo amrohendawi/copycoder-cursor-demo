@@ -1,7 +1,7 @@
 'use client'
 
 import Modal from '@/components/shared/Modal'
-import { Calendar, FileText, Download, Clock, Eye } from 'lucide-react'
+import { Calendar, FileText, Download, Clock, Eye, Trash } from 'lucide-react'
 import { useState } from 'react'
 import Image from 'next/image'
 
@@ -21,13 +21,15 @@ interface DocumentDetailsModalProps {
     mimeType?: string
   }
   onDownload?: () => void
+  onDelete?: (id: string) => void
 }
 
 export default function DocumentDetailsModal({
   isOpen,
   onClose,
   document,
-  onDownload
+  onDownload,
+  onDelete
 }: DocumentDetailsModalProps) {
   const [showPreview, setShowPreview] = useState(false)
 
@@ -88,6 +90,13 @@ export default function DocumentDetailsModal({
             </button>
           </div>
         )
+    }
+  }
+
+  const handleDelete = () => {
+    if (window.confirm(`Are you sure you want to delete "${document.title}"?`)) {
+      onDelete?.(document.id)
+      onClose()
     }
   }
 
@@ -175,6 +184,13 @@ export default function DocumentDetailsModal({
                   </button>
                 </>
               )}
+              <button
+                onClick={handleDelete}
+                className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-md w-full sm:w-auto"
+              >
+                <Trash size={16} />
+                Delete
+              </button>
               <button
                 onClick={onClose}
                 className="flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 border rounded-md w-full sm:w-auto"
