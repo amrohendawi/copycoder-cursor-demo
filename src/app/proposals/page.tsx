@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import DashboardLayout from '@/components/layout/DashboardLayout'
-import { Plus, Search } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import NewProposalForm from '@/components/features/proposals/NewProposalForm'
 import ProposalDetailsModal from '@/components/features/proposals/ProposalDetailsModal'
 

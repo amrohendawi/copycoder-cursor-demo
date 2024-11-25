@@ -15,13 +15,21 @@ interface NewWorkflowFormProps {
   }) => void
 }
 
+type Priority = 'low' | 'medium' | 'high';
+
 export default function NewWorkflowForm({ isOpen, onClose, onSubmit }: NewWorkflowFormProps) {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    title: string;
+    description: string;
+    dueDate: string;
+    assignee: string;
+    priority: Priority;
+  }>({
     title: '',
     description: '',
     dueDate: '',
     assignee: '',
-    priority: 'medium' as const,
+    priority: 'medium',
   })
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -87,7 +95,10 @@ export default function NewWorkflowForm({ isOpen, onClose, onSubmit }: NewWorkfl
           <label className="block text-sm font-medium text-gray-700">Priority</label>
           <select
             value={formData.priority}
-            onChange={(e) => setFormData({ ...formData, priority: e.target.value as 'low' | 'medium' | 'high' })}
+            onChange={(e) => {
+              const value = e.target.value as Priority;
+              setFormData({ ...formData, priority: value });
+            }}
             className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none"
           >
             <option value="low">Low</option>

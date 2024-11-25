@@ -3,6 +3,7 @@
 import Modal from '@/components/shared/Modal'
 import { Calendar, FileText, Download, Clock, Eye } from 'lucide-react'
 import { useState } from 'react'
+import Image from 'next/image'
 
 interface DocumentDetailsModalProps {
   isOpen: boolean
@@ -59,10 +60,12 @@ export default function DocumentDetailsModal({
       case 'png':
       case 'gif':
         return (
-          <img
+          <Image
             src={document.fileUrl}
             alt={document.title}
-            className="max-w-full h-auto"
+            width={128}
+            height={128}
+            className="object-cover"
           />
         )
       case 'docx':

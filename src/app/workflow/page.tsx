@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import DashboardLayout from '@/components/layout/DashboardLayout'
-import { ChevronRight, Clock, MoreVertical, Plus } from 'lucide-react'
+import { Clock, MoreVertical, Plus } from 'lucide-react'
 
 interface WorkflowItem {
   id: string
