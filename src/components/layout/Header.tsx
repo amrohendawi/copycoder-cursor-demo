@@ -4,6 +4,7 @@ import { Menu } from 'lucide-react'
 import { useSidebar } from '@/context/SidebarContext'
 import Breadcrumbs from './Breadcrumbs'
 import { usePathname } from 'next/navigation'
+import { UserButton } from '@clerk/nextjs'
 
 const Header = () => {
   const { toggleMobileMenu } = useSidebar()
@@ -11,6 +12,9 @@ const Header = () => {
 
   // Function to generate page title from pathname
   const getPageTitle = () => {
+    // If pathname is null, return a default title
+    if (!pathname) return 'Dashboard'
+    
     const path = pathname.split('/')
     const lastSegment = path[path.length - 1]
     return lastSegment
@@ -22,6 +26,8 @@ const Header = () => {
 
   // Function to determine badge content based on pathname
   const getBadgeContent = () => {
+    if (!pathname) return 'Overview'
+    
     if (pathname.includes('/documents')) {
       return 'Active'
     } else if (pathname.includes('/tasks')) {
@@ -60,6 +66,9 @@ const Header = () => {
         </button>
         <div className="w-full overflow-x-auto scrollbar-hide">
           <Breadcrumbs />
+        </div>
+        <div className="flex-shrink-0">
+          <UserButton afterSignOutUrl="/" />
         </div>
       </div>
       

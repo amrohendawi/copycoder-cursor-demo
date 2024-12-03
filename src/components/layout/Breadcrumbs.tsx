@@ -18,6 +18,9 @@ export default function Breadcrumbs() {
   const pathname = usePathname()
 
   const breadcrumbs = useMemo(() => {
+    // If pathname is null, return an empty array
+    if (!pathname) return []
+
     // Remove trailing slash and split path into segments
     const segments = pathname.replace(/\/$/, '').split('/').filter(Boolean)
     
@@ -43,6 +46,9 @@ export default function Breadcrumbs() {
       </nav>
     )
   }
+
+  // If no breadcrumbs, don't render anything
+  if (breadcrumbs.length === 0) return null
 
   return (
     <nav className="flex items-center text-sm min-w-max">

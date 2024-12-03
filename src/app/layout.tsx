@@ -1,9 +1,5 @@
 import {
   ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton
 } from '@clerk/nextjs'
 import localFont from "next/font/local";
 import './globals.css'
@@ -31,19 +27,6 @@ export default function RootLayout({
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           <SidebarProvider>
-            <header style={{ 
-              position: 'fixed', 
-              top: '1rem', 
-              right: '1rem',
-              zIndex: 50 
-            }}>
-              <SignedOut>
-                <SignInButton mode="modal" />
-              </SignedOut>
-              <SignedIn>
-                <UserButton afterSignOutUrl="/" />
-              </SignedIn>
-            </header>
             {children}
           </SidebarProvider>
         </body>

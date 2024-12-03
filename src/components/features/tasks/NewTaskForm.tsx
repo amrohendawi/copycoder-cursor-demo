@@ -2,19 +2,18 @@
 
 import { useState } from 'react'
 import Modal from '@/components/shared/Modal'
+import { tasksService } from '@/lib/db'
+import type { Task } from '@/lib/types'
+import { useUser } from '@clerk/nextjs'
 
 interface NewTaskFormProps {
   isOpen: boolean
   onClose: () => void
-  onSubmit: (data: {
-    title: string
-    description: string
-    dueDate: string
-    priority: string
-  }) => void
+  onSubmit?: () => void
 }
 
 export default function NewTaskForm({ isOpen, onClose, onSubmit }: NewTaskFormProps) {
+  const { user } = useUser();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -22,16 +21,69 @@ export default function NewTaskForm({ isOpen, onClose, onSubmit }: NewTaskFormPr
     priority: 'medium',
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    onSubmit(formData)
-    setFormData({ title: '', description: '', dueDate: '', priority: 'medium' })
-    onClose()
+    setIsSubmitting(true)
+    setError(null)
+
+    try {
+      if (!user?.id) {
+        throw new Error('User must be authenticated');
+      }
+
+      if (!formData.title.trim()) {
+        throw new Error('Title is required');
+      }
+
+      if (!formData.dueDate) {
+        throw new Error('Due date is required');
+      }
+
+      const taskData = {
+        title: formData.title.trim(),
+        description: formData.description.trim(),
+        dueDate: formData.dueDate,
+        priority: formData.priority as Task['priority'],
+        status: 'todo' as const,
+        createdBy: user.id,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+
+      await tasksService.create(taskData)
+      onSubmit?.()
+      setFormData({
+        title: '',
+        description: '',
+        dueDate: '',
+        priority: 'medium',
+      })
+      onClose()
+    } catch (err) {
+      console.error('Error creating task:', err)
+      setError(err instanceof Error ? err.message : 'Failed to create task')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
+
+  if (!isOpen) return null;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Create New Task">
       <form onSubmit={handleSubmit} className="space-y-4">
+        {error && (
+          <div className="rounded-md bg-red-50 p-4">
+            <div className="flex">
+              <div className="ml-3">
+                <h3 className="text-sm font-medium text-red-800">{error}</h3>
+              </div>
+            </div>
+          </div>
+        )}
         <div>
           <label className="block text-sm font-medium text-gray-700">Title</label>
           <input
@@ -76,22 +128,24 @@ export default function NewTaskForm({ isOpen, onClose, onSubmit }: NewTaskFormPr
           </select>
         </div>
 
-        <div className="flex justify-end gap-2 pt-4">
+        <div className="mt-4 flex justify-end space-x-2">
           <button
             type="button"
             onClick={onClose}
-            className="rounded-md border px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            disabled={isSubmitting}
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800"
+            className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+            disabled={isSubmitting}
           >
-            Create Task
+            {isSubmitting ? 'Creating...' : 'Create Task'}
           </button>
         </div>
       </form>
     </Modal>
   )
-} 
+}
