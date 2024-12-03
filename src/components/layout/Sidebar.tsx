@@ -1,14 +1,15 @@
 'use client'
 
-import { Home, FileText, Workflow, FolderOpen, Contact, Menu, X } from 'lucide-react'
+import { Home, FileText, Workflow, FolderOpen, Contact, X } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
+import { useSidebar } from '@/context/SidebarContext'
 
 const Sidebar = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const { isMobileMenuOpen, setIsMobileMenuOpen } = useSidebar()
   const pathname = usePathname()
 
   useEffect(() => {
@@ -33,18 +34,6 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Mobile Menu Toggle Button */}
-      <button
-        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className="fixed top-3 left-4 z-50 p-2 rounded-md bg-white shadow-lg sm:hidden hover:bg-gray-100"
-      >
-        {isMobileMenuOpen ? (
-          <X size={24} className="text-gray-600" />
-        ) : (
-          <Menu size={24} className="text-gray-600" />
-        )}
-      </button>
-
       {/* Overlay */}
       {isMobileMenuOpen && (
         <div
@@ -63,7 +52,7 @@ const Sidebar = () => {
         shadow-xl sm:shadow-none
       `}>
         <div className="flex flex-col h-full">
-          <div className="p-4 mb-6 mt-14 sm:mt-4">
+          <div className="p-4 mb-6 mt-4">
             <Image 
               src="https://picsum.photos/200/60" 
               alt="Logo" 
@@ -107,4 +96,4 @@ const Sidebar = () => {
   )
 }
 
-export default Sidebar 
+export default Sidebar

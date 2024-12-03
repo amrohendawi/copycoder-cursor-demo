@@ -1,12 +1,22 @@
 'use client'
 
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight, Menu } from 'lucide-react'
+import { useSidebar } from '@/context/SidebarContext'
 
 const Header = () => {
+  const { toggleMobileMenu } = useSidebar()
+
   return (
     <header className="h-auto sm:h-[108px] border-b border-gray-200 bg-white">
       {/* Breadcrumbs */}
-      <div className="h-[48px] px-4 flex items-center border-b border-gray-200">
+      <div className="h-[48px] px-4 flex items-center gap-3 border-b border-gray-200">
+        <button 
+          className="sm:hidden p-2 hover:bg-gray-100 rounded-lg" 
+          aria-label="Toggle menu"
+          onClick={toggleMobileMenu}
+        >
+          <Menu size={24} className="text-gray-700" />
+        </button>
         <div className="w-full overflow-x-auto scrollbar-hide">
           <nav className="flex items-center text-sm min-w-max">
             <span className="text-gray-600 whitespace-nowrap">Document Templates</span>
@@ -31,4 +41,4 @@ const Header = () => {
   )
 }
 
-export default Header 
+export default Header
