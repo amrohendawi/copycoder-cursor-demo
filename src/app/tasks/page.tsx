@@ -46,7 +46,7 @@ export default function TasksPage() {
           <h1 className="text-2xl font-semibold">Tasks</h1>
           <button 
             onClick={() => setIsNewTaskModalOpen(true)}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md flex items-center gap-2 hover:bg-blue-700"
+            className="px-4 py-2 bg-gray-900 text-white rounded-md flex items-center gap-2 hover:bg-gray-800"
           >
             <Plus size={20} />
             New Task

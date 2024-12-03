@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import DashboardLayout from '@/components/layout/DashboardLayout'
 import { Clock, MoreVertical, Plus } from 'lucide-react'
+import NewWorkflowForm from '@/components/features/workflows/NewWorkflowForm'
 
 interface WorkflowItem {
   id: string
@@ -35,6 +36,17 @@ export default function WorkflowPage() {
       priority: 'medium'
     }
   ])
+
+  const [isNewWorkflowModalOpen, setIsNewWorkflowModalOpen] = useState(false)
+
+  const handleAddWorkflow = (data: Omit<WorkflowItem, 'id' | 'status'>) => {
+    const newItem: WorkflowItem = {
+      ...data,
+      id: (items.length + 1).toString(),
+      status: 'Draft'
+    }
+    setItems([...items, newItem])
+  }
 
   const columns = [
     { id: 'Draft', title: 'Draft', color: 'gray' },
@@ -78,7 +90,10 @@ export default function WorkflowPage() {
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
           <h1 className="text-2xl font-semibold">Workflow</h1>
-          <button className="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white rounded-md flex items-center gap-2 hover:bg-blue-700 justify-center">
+          <button 
+            onClick={() => setIsNewWorkflowModalOpen(true)}
+            className="w-full sm:w-auto px-4 py-2 bg-gray-900 text-white rounded-md flex items-center gap-2 hover:bg-gray-800 justify-center"
+          >
             <Plus size={20} />
             Add Item
           </button>
@@ -153,6 +168,11 @@ export default function WorkflowPage() {
           </div>
         </div>
       </div>
+      <NewWorkflowForm
+        isOpen={isNewWorkflowModalOpen}
+        onClose={() => setIsNewWorkflowModalOpen(false)}
+        onSubmit={handleAddWorkflow}
+      />
     </DashboardLayout>
   )
 } 

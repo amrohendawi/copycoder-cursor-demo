@@ -109,7 +109,7 @@ export default function DocumentsPage() {
             </label>
             <button 
               onClick={() => setIsNewDocumentModalOpen(true)}
-              className="px-4 py-2 bg-blue-600 text-white rounded-md flex items-center gap-2 hover:bg-blue-700 w-full sm:w-auto justify-center"
+              className="px-4 py-2 bg-gray-900 text-white rounded-md flex items-center gap-2 hover:bg-gray-800 w-full sm:w-auto justify-center"
             >
               <Plus size={20} />
               <span>New Document</span>
