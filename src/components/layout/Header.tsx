@@ -4,7 +4,7 @@ import { Menu } from 'lucide-react'
 import { useSidebar } from '@/context/SidebarContext'
 import Breadcrumbs from './Breadcrumbs'
 import { usePathname } from 'next/navigation'
-import { UserButton } from '@clerk/nextjs'
+import { UserButton, SignInButton, SignedIn, SignedOut } from '@clerk/nextjs'
 
 const Header = () => {
   const { toggleMobileMenu } = useSidebar()
@@ -68,7 +68,12 @@ const Header = () => {
           <Breadcrumbs />
         </div>
         <div className="flex-shrink-0">
-          <UserButton afterSignOutUrl="/" />
+          <SignedIn>
+            <UserButton afterSignOutUrl="/" />
+          </SignedIn>
+          <SignedOut>
+            <SignInButton mode="modal" />
+          </SignedOut>
         </div>
       </div>
       
