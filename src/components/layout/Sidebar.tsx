@@ -1,6 +1,6 @@
 'use client'
 
-import { Home, FileText, Workflow, FolderOpen, Contact, X } from 'lucide-react'
+import { Home, FileText, Workflow, FolderOpen, Contact } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'

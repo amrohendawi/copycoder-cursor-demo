@@ -1,7 +1,8 @@
 'use client'
 
-import { ChevronRight, Menu } from 'lucide-react'
+import { Menu } from 'lucide-react'
 import { useSidebar } from '@/context/SidebarContext'
+import Breadcrumbs from './Breadcrumbs'
 
 const Header = () => {
   const { toggleMobileMenu } = useSidebar()
@@ -18,13 +19,7 @@ const Header = () => {
           <Menu size={24} className="text-gray-700" />
         </button>
         <div className="w-full overflow-x-auto scrollbar-hide">
-          <nav className="flex items-center text-sm min-w-max">
-            <span className="text-gray-600 whitespace-nowrap">Document Templates</span>
-            <ChevronRight size={16} className="mx-2 text-gray-400 flex-shrink-0" />
-            <span className="text-gray-600 whitespace-nowrap">Board Books</span>
-            <ChevronRight size={16} className="mx-2 text-gray-400 flex-shrink-0" />
-            <span className="text-gray-900 font-medium whitespace-nowrap">Q2</span>
-          </nav>
+          <Breadcrumbs />
         </div>
       </div>
       
